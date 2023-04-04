@@ -1,28 +1,21 @@
 const startBtn = document.querySelector('button[data-start]');
 const stopBtn = document.querySelector('button[data-stop]');
 const body = document.querySelector('body');
-
 let timerId = null;
-let isStartBtnActive = false;
 
 startBtn.addEventListener('click', onStartBtn);
 stopBtn.addEventListener('click', onStopBtn);
 
 function onStartBtn() {
-  if (isStartBtnActive) {
-    return;
-  }
-
   timerId = setInterval(
     () => (body.style.backgroundColor = `${getRandomHexColor()}`),
     1000);
-  
-  isStartBtnActive = true;
+  startBtn.setAttribute('disabled', '');
 }
 
 function onStopBtn() {
   clearInterval(timerId);
-  isStartBtnActive = false;
+  startBtn.removeAttribute('disabled');
 }
 
 function getRandomHexColor() {
