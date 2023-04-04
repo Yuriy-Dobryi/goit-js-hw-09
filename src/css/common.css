@@ -3,13 +3,13 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #fafafa;
   color: #212121;
   line-height: 1.5;
+  margin-left: 300px;
 }
 
 img {
@@ -19,5 +19,33 @@ img {
 
 button {
   margin-right: 50px;
+  font-size: 32px;
+}
+
+#datetime-picker {
+  margin-bottom: 24px;
+  margin-right: 24px;
+  font-size: 24px;
+  color: blue;
+}
+button {
+  background-color:rgb(103, 218, 147)
+}
+button:disabled {
+  background-color: rgb(204, 179, 179);
+}
+.timer {
+  display: flex;
+  column-gap: 40px;
+}
+
+.value {
+  font-family: Cantarell;
+  color: green;
   font-size: 36px;
+}
+.label {
+  font-family: Cantarell;
+  color: purple;
+  font-size: 20px;
 }
