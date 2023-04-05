@@ -18,7 +18,7 @@ const options = {
   onClose: (selectedDates) => {
     timeToEvent = selectedDates[0] - Date.now();
     if (timeToEvent > 0) {
-      startBtn.removeAttribute('disabled');
+      startBtn.disabled = false;
     } else {
       alert('Please choose a date in the future');
     }
@@ -31,7 +31,7 @@ flatpickr('#datetime-picker', options);
 startBtn.addEventListener('click', onStartBtn);
 
 function disableStartBtn() {
-  startBtn.setAttribute('disabled', '');
+  startBtn.disabled = true;
 }
 
 function onStartBtn() {
@@ -40,10 +40,8 @@ function onStartBtn() {
       clearInterval(intervalId);
     }
     const convertedTime = convertMs(timeToEvent);
-    for (const time in convertedTime) {
-      if (convertedTime[time] < 10) {
+    for (const time in convertedTime) {  
         convertedTime[time] = addLeadingZero(convertedTime[time]);
-      }
     }
     updateClockface(convertedTime);
     timeToEvent -= 1000;
@@ -53,7 +51,7 @@ function onStartBtn() {
 } 
 
 function addLeadingZero(value) {
-  return String(value).padStart(2, '0');
+  return String(value).padStart(2, 0);
 }
 
 function updateClockface({ days, hours, minutes, seconds }) {
