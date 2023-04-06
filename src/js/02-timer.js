@@ -2,11 +2,15 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
 const startBtn = document.querySelector('button[data-start]');
-const [daysRef, hoursRef, minutesRef, secondsRef] = document.querySelectorAll(
-  'span[data-days], span[data-hours], span[data-minutes], span[data-seconds]'
-);
+const [daysRef, hoursRef, minutesRef, secondsRef] = document.querySelectorAll('span[data-days], span[data-hours], span[data-minutes], span[data-seconds]');
 
-let timeToEvent = null;
+const clockRef = {
+  days: daysRef,
+  hours: hoursRef,
+  minutes: minutesRef,
+  seconds: secondsRef,
+};
+let msTimeToEvent = null;
 
 const options = {
   enableTime: true,
@@ -16,8 +20,8 @@ const options = {
   onOpen: () => disableStartBtn(),
 
   onClose: (selectedDates) => {
-    timeToEvent = selectedDates[0] - Date.now();
-    if (timeToEvent > 0) {
+    msTimeToEvent = selectedDates[0] - Date.now();
+    if (msTimeToEvent > 0) {
       startBtn.disabled = false;
     } else {
       alert('Please choose a date in the future');
@@ -36,29 +40,24 @@ function disableStartBtn() {
 
 function onStartBtn() {
   const intervalId = setInterval(() => {
-    if (timeToEvent < 1000) {
+    if (msTimeToEvent < 1000) {
       clearInterval(intervalId);
     }
-    const convertedTime = convertMs(timeToEvent);
-    for (const time in convertedTime) {  
-        convertedTime[time] = addLeadingZero(convertedTime[time]);
+    const convertedToClockTime = convertMs(msTimeToEvent);
+    // функция convertMs возвращает обьект с такими же ключами как у обьекта clockRef, поэтому эти ключи удобно использовать в цикле for in
+    for (const unitTime in convertedToClockTime) {
+      clockRef[unitTime].textContent = addLeadingZero(convertedToClockTime[unitTime]);
+      // const unitTimeClockRef = document.querySelector(`[data-${unitTime}]`);
+      // unitTimeClockRef.textContent = addLeadingZero(convertedToClockTime[unitTime]);
     }
-    updateClockface(convertedTime);
-    timeToEvent -= 1000;
+    msTimeToEvent -= 1000;
   }, 1000);
 
   disableStartBtn();
-} 
+}
 
 function addLeadingZero(value) {
   return String(value).padStart(2, 0);
-}
-
-function updateClockface({ days, hours, minutes, seconds }) {
-  daysRef.textContent = days;
-  hoursRef.textContent = hours;
-  minutesRef.textContent = minutes;
-  secondsRef.textContent = seconds;
 }
 
 function convertMs(ms) {
