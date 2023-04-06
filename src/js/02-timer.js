@@ -1,6 +1,14 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
+import { Report } from 'notiflix';
+Report.init({
+  width: '420px',
+  titleFontSize: '36px',
+  messageFontSize: '24px',
+  buttonFontSize: '24px',
+});
+
 const startBtn = document.querySelector('button[data-start]');
 const [daysRef, hoursRef, minutesRef, secondsRef] = document.querySelectorAll('span[data-days], span[data-hours], span[data-minutes], span[data-seconds]');
 
@@ -24,7 +32,11 @@ const options = {
     if (msTimeToEvent > 0) {
       startBtn.disabled = false;
     } else {
-      alert('Please choose a date in the future');
+      Report.warning(
+        'Invalid time',
+        'Please choose a date in the future',
+        'Okay'
+      );
     }
   },
 };
@@ -44,7 +56,7 @@ function onStartBtn() {
       clearInterval(intervalId);
     }
     const convertedToClockTime = convertMs(msTimeToEvent);
-    // функция convertMs возвращает обьект с такими же ключами как у обьекта clockRef, поэтому эти ключи удобно использовать в цикле for in
+    // Функция convertMs возвращает обьект с такими же ключами как у обьекта clockRef, поэтому эти ключи удобно использовать в цикле for in
     for (const unitTime in convertedToClockTime) {
       clockRef[unitTime].textContent = addLeadingZero(convertedToClockTime[unitTime]);
       // const unitTimeClockRef = document.querySelector(`[data-${unitTime}]`);
