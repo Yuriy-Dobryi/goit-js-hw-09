@@ -10,7 +10,7 @@ formRef.addEventListener('submit', (e) => {
   const amount = Number(amountRef.value);
   
 
-  for (let index = 1; index <= amount; index += 1) {
+  for (let index = 1; index <= amount; index += 1, delay += step) {
     createPromise(index, delay)
       .then(({ position, delay }) => {
         console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
@@ -18,7 +18,6 @@ formRef.addEventListener('submit', (e) => {
       .catch(({ position, delay }) => {
         console.log(`❌ Rejected promise ${position} in ${delay}ms`);
       });
-    delay += step;
   }
 });
 
