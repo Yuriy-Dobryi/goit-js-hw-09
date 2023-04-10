@@ -10,6 +10,8 @@ Report.init({
 });
 
 const startBtn = document.querySelector('button[data-start]');
+const dateTimePickerRef = document.getElementById('datetime-picker');
+
 const [daysRef, hoursRef, minutesRef, secondsRef] = document.querySelectorAll('span[data-days], span[data-hours], span[data-minutes], span[data-seconds]');
 
 const clockRef = {
@@ -51,9 +53,12 @@ function disableStartBtn() {
 }
 
 function onStartBtn() {
+  dateTimePickerRef.toggleAttribute('disabled');
+
   const intervalId = setInterval(() => {
     if (msTimeToEvent < 1000) {
       clearInterval(intervalId);
+      dateTimePickerRef.toggleAttribute('disabled');
     }
     const convertedToClockTime = convertMs(msTimeToEvent);
     // Функция convertMs возвращает обьект с такими же ключами как у обьекта clockRef, поэтому эти ключи удобно использовать в цикле for in
